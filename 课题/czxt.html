@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>课题</title>
+	</head>
+	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="css/portal.css" />
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js" ></script>
+	<body>
+		<div class="h-cat" id="show">
+			<h1>操作系统</h1>
+			<ul v-for="info in list">
+				<div>
+					
+					
+					{{info.题干}}
+					({{info.选择类型}})
+					({{info.难易程度}})
+					{{info.答案}}
+					<p>
+						{{info.选项1}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						{{info.选项2}}<br>
+						{{info.选项3}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						{{info.选项4}}<br>
+						{{info.选项5}}
+					</p>	
+				</div>
+				
+				
+			</ul>
+			
+
+		</div>
+		<script>
+			
+			var vue = new Vue({
+				el: "#show",
+				data: {
+					list:[],
+					alones:[]
+				}
+			});
+			
+			
+			info("操作系统");
+			function info(file){
+				$.ajax({
+					type: 'get',
+					dataType: 'json',
+					url: "json/"+file+".json",
+					data: {
+					},
+					success: function(data) {
+						console.log(JSON.stringify(data))
+						if(file == "操作系统"){
+							vue.list = data;
+						}else if(file == "计算机系统原理"){
+							vue.alones = data;
+						}
+						
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						//容错处理
+						console.log("返回错误XMLHttpRequest-->" + XMLHttpRequest);
+						console.log("返回错误textStatus-->" + textStatus);
+						console.log("返回错误errorThrown-->" + errorThrown);
+					}
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>
